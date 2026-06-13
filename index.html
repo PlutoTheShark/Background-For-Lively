@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lavender Night Pagoda</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #1A1028; /* deep night purple */
+      font-family: system-ui, sans-serif;
+    }
+
+    #scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* Base sizes */
+    .layer img {
+      display: block;
+      max-width: none;
+    }
+
+    /* Sky fills everything */
+    .sky {
+      width: 140vw;
+      height: 140vh;
+      z-index: 1;
+    }
+
+    .clouds-back {
+      z-index: 2;
+    }
+
+    .clouds-front {
+      z-index: 3;
+    }
+
+    .ocean {
+      z-index: 4;
+    }
+
+    .mountains {
+      z-index: 5;
+    }
+
+    .pagoda {
+      z-index: 6;
+    }
+
+    .waves-front {
+      z-index: 7;
+    }
+
+    .waves-near {
+      z-index: 8;
+    }
+
+    /* Optional subtle color grading overlay */
+    .lavender-overlay {
+      width: 140vw;
+      height: 140vh;
+      background: radial-gradient(circle at 50% 20%, rgba(123, 91, 190, 0.35), transparent 65%);
+      mix-blend-mode: screen;
+      z-index: 9;
+    }
+  </style>
+</head>
+<body>
+  <div id="scene">
+    <!-- Lavender night sky -->
+    <div class="layer sky" data-depth="0.05">
+      <img src="assets/sky.png" alt="Lavender night sky" />
+    </div>
+
+    <!-- Distant clouds -->
+    <div class="layer clouds-back" data-depth="0.10">
+      <img src="assets/clouds_back.png" alt="Distant clouds" />
+    </div>
+
+    <!-- Closer clouds -->
+    <div class="layer clouds-front" data-depth="0.20">
+      <img src="assets/clouds_front.png" alt="Closer clouds" />
+    </div>
+
+    <!-- Ocean horizon -->
+    <div class="layer ocean" data-depth="0.15">
+      <img src="assets/ocean.png" alt="Ocean horizon" />
+    </div>
+
+    <!-- Distant mountains -->
+    <div class="layer mountains" data-depth="0.25">
+      <img src="assets/mountains.png" alt="Distant mountains" />
+    </div>
+
+    <!-- Pagoda on stone platform (where lighthouse was) -->
+    <div class="layer pagoda" data-depth="0.40">
+      <img src="assets/pagoda_platform.png" alt="Pagoda on stone platform" />
+    </div>
+
+    <!-- Foreground waves -->
+    <div class="layer waves-front" data-depth="0.50">
+      <img src="assets/waves_front.png" alt="Foreground waves" />
+    </div>
+
+    <!-- Nearest waves / foam -->
+    <div class="layer waves-near" data-depth="0.70">
+      <img src="assets/waves_near.png" alt="Nearest waves and foam" />
+    </div>
+
+    <!-- Lavender glow overlay -->
+    <div class="layer lavender-overlay" data-depth="0.02"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+  <script>
+    const scene = document.getElementById('scene');
+    const parallaxInstance = new Parallax(scene, {
+      relativeInput: true,
+      hoverOnly: false,
+      scalarX: 18,
+      scalarY: 12,
+      frictionX: 0.08,
+      frictionY: 0.08
+    });
+  </script>
+</body>
+</html>
