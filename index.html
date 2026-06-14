@@ -56,14 +56,19 @@
     .mountains-content { transform: translate3d(0, 0, 0); }
     .pagoda-content    { transform: translate3d(0, 5%, 0); }
     .ocean-content     { transform: translate3d(0, 10%, 0); }
-    .waves-n-content   { transform: translate3d(0, 25%, 0); }
-    .waves-f-content   { transform: translate3d(0, 30%, 0); }
+    .waves-n-content   { transform: translate3d(0, 20%, 0); }
+    .waves-f-content   { transform: translate3d(0, 35%, 0); }
 
-    /* Scale down waves */
-    .waves-n-content img,
-    .waves-f-content img {
-      transform: scale(0.85);
+    /* Expand clouds and ocean horizontally */
+    .clouds-b-content img,
+    .clouds-f-content img,
+    .ocean-content img {
+      width: 140vw;
     }
+
+    /* Scale down waves slightly for realism */
+    .waves-n-content img { transform: scale(0.85); }
+    .waves-f-content img { transform: scale(0.80); }
 
     /* Cloud drift */
     @keyframes cloudsBackDrift {
@@ -89,17 +94,17 @@
 
     /* Mid waves drift */
     @keyframes wavesNearDrift {
-      0%   { transform: translate3d(-8px, 25%, 0); }
-      50%  { transform: translate3d( 8px, 25%, 0); }
-      100% { transform: translate3d(-8px, 25%, 0); }
+      0%   { transform: translate3d(-8px, 20%, 0); }
+      50%  { transform: translate3d( 8px, 20%, 0); }
+      100% { transform: translate3d(-8px, 20%, 0); }
     }
     .waves-n-content { animation: wavesNearDrift 18s ease-in-out infinite; }
 
     /* Foreground waves drift */
     @keyframes wavesFrontDrift {
-      0%   { transform: translate3d(-10px, 30%, 0); }
-      50%  { transform: translate3d( 10px, 30%, 0); }
-      100% { transform: translate3d(-10px, 30%, 0); }
+      0%   { transform: translate3d(-10px, 35%, 0); }
+      50%  { transform: translate3d( 10px, 35%, 0); }
+      100% { transform: translate3d(-10px, 35%, 0); }
     }
     .waves-f-content { animation: wavesFrontDrift 12s ease-in-out infinite; }
 
