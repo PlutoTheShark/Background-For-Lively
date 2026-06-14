@@ -55,15 +55,22 @@
     .clouds-f-content  { transform: translate3d(0, -30%, 0); }
     .mountains-content { transform: translate3d(0, 0, 0); }
     .pagoda-content    { transform: translate3d(0, 5%, 0); }
-    .ocean-content     { transform: translate3d(0, 10%, 0); }
-    .waves-n-content   { transform: translate3d(0, 20%, 0); }
-    .waves-f-content   { transform: translate3d(0, 35%, 0); }
+    .ocean-content     { transform: translate3d(-5%, 10%, 0); }
+    .waves-n-content   { transform: translate3d(-5%, 20%, 0); }
+    .waves-f-content   { transform: translate3d(-5%, 35%, 0); }
 
     /* Expand clouds and ocean horizontally */
     .clouds-b-content img,
     .clouds-f-content img,
     .ocean-content img {
       width: 140vw;
+    }
+
+    /* Stretch waves horizontally + transparency */
+    .waves-n-content img,
+    .waves-f-content img {
+      width: 150vw;
+      opacity: 0.8; /* semi-transparent waves */
     }
 
     /* Scale down waves slightly for realism */
