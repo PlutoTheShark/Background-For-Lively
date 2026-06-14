@@ -19,129 +19,167 @@
       overflow: hidden;
     }
 
-    /* Oversized layers so parallax never exposes edges */
-    .layer img {
-      width: 180vw;
-      height: 180vh;
+    .layer {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+    }
+
+    .content {
+      position: absolute;
+      inset: 0;
+    }
+
+    .content img {
+      width: 130vw;
+      height: 130vh;
       object-fit: cover;
       pointer-events: none;
     }
 
-    /* Base layer container */
-    .layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      will-change: transform;
-    }
-
-    /* Z-index stacking */
-    .sky { z-index: 1; }
-    .clouds-back { z-index: 2; }
-    .clouds-front { z-index: 3; }
+    /* Z stacking */
+    .sky       { z-index: 1; }
+    .clouds-b  { z-index: 2; }
+    .clouds-f  { z-index: 3; }
     .mountains { z-index: 4; }
-    .ocean { z-index: 5; }
-    .waves-near { z-index: 6; }
-    .waves-front { z-index: 7; }
-    .pagoda { z-index: 8; }
-    .lavender-overlay { z-index: 9; }
+    .ocean     { z-index: 5; }
+    .waves-n   { z-index: 6; }
+    .waves-f   { z-index: 7; }
+    .pagoda    { z-index: 8; }
+    .overlay   { z-index: 9; }
 
-    /* Vertical positioning using translate3d so parallax doesn't override */
-    .sky { transform: translate3d(0, -10%, 0); }
-    .clouds-back { transform: translate3d(0, -25%, 0); }
-    .clouds-front { transform: translate3d(0, -18%, 0); }
-    .mountains { transform: translate3d(0, -5%, 0); }
-    .ocean { transform: translate3d(0, 10%, 0); }
-    .waves-near { transform: translate3d(0, 20%, 0); }
-    .waves-front { transform: translate3d(0, 28%, 0); }
+    /* Base positions (baked into content, parallax moves the layer) */
+    .sky-content       { transform: translate3d(0, -5%, 0); }
+    .clouds-b-content  { transform: translate3d(0, -15%, 0); }
+    .clouds-f-content  { transform: translate3d(0, -10%, 0); }
+    .mountains-content { transform: translate3d(0, 0, 0); }
+    .pagoda-content    { transform: translate3d(0, 5%, 0); }
+    .ocean-content     { transform: translate3d(0, 10%, 0); }
+    .waves-n-content   { transform: translate3d(0, 18%, 0); }
+    .waves-f-content   { transform: translate3d(0, 24%, 0); }
 
-    /* Independent ocean drift */
+    /* Clouds drift (move with cursor via depth + slow drift) */
+    @keyframes cloudsBackDrift {
+      0%   { transform: translate3d(-10px, -15%, 0); }
+      50%  { transform: translate3d( 10px, -15%, 0); }
+      100% { transform: translate3d(-10px, -15%, 0); }
+    }
+    @keyframes cloudsFrontDrift {
+      0%   { transform: translate3d(-6px, -10%, 0); }
+      50%  { transform: translate3d( 6px, -10%, 0); }
+      100% { transform: translate3d(-6px, -10%, 0); }
+    }
+    .clouds-b-content {
+      animation: cloudsBackDrift 40s ease-in-out infinite;
+    }
+    .clouds-f-content {
+      animation: cloudsFrontDrift 32s ease-in-out infinite;
+    }
+
+    /* Big back waves (ocean) – static to cursor, drifting only */
     @keyframes oceanDrift {
-      0% { transform: translate3d(0, 10%, 0); }
-      50% { transform: translate3d(15px, 10%, 0); }
-      100% { transform: translate3d(0, 10%, 0); }
+      0%   { transform: translate3d( -12px, 10%, 0); }
+      50%  { transform: translate3d(  12px, 10%, 0); }
+      100% { transform: translate3d( -12px, 10%, 0); }
+    }
+    .ocean-content {
+      animation: oceanDrift 26s ease-in-out infinite;
     }
 
-    .ocean {
-      animation: oceanDrift 20s ease-in-out infinite;
+    /* Mid waves – small depth + drift */
+    @keyframes wavesNearDrift {
+      0%   { transform: translate3d( -8px, 18%, 0); }
+      50%  { transform: translate3d(  8px, 18%, 0); }
+      100% { transform: translate3d( -8px, 18%, 0); }
+    }
+    .waves-n-content {
+      animation: wavesNearDrift 18s ease-in-out infinite;
     }
 
-    /* Independent near-wave drift */
-    @keyframes waveNearDrift {
-      0% { transform: translate3d(0, 20%, 0); }
-      50% { transform: translate3d(8px, 20%, 0); }
-      100% { transform: translate3d(0, 20%, 0); }
+    /* Foreground waves – move with cursor (depth) + drift */
+    @keyframes wavesFrontDrift {
+      0%   { transform: translate3d( -10px, 24%, 0); }
+      50%  { transform: translate3d(  10px, 24%, 0); }
+      100% { transform: translate3d( -10px, 24%, 0); }
+    }
+    .waves-f-content {
+      animation: wavesFrontDrift 12s ease-in-out infinite;
     }
 
-    .waves-near {
-      animation: waveNearDrift 14s ease-in-out infinite;
-    }
-
-    /* Foreground waves motion */
-    @keyframes waveMotion {
-      0% { transform: translate3d(0, 28%, 0); }
-      50% { transform: translate3d(12px, 28%, 0); }
-      100% { transform: translate3d(0, 28%, 0); }
-    }
-
-    .waves-front {
-      animation: waveMotion 8s ease-in-out infinite;
-    }
-
-    /* Lavender glow overlay */
-    .lavender-overlay {
+    /* Lavender overlay */
+    .overlay-content {
       background: radial-gradient(circle at 50% 20%, rgba(123, 91, 190, 0.35), transparent 65%);
     }
   </style>
 </head>
 <body>
   <div id="scene">
-
-    <div class="layer sky" data-depth="0.05">
-      <img src="assets/sky.png" alt="Lavender night sky" />
+    <!-- Sky: tiny parallax, feels anchored -->
+    <div class="layer sky" data-depth="0.02">
+      <div class="content sky-content">
+        <img src="assets/sky.png" alt="Lavender night sky">
+      </div>
     </div>
 
-    <div class="layer clouds-back" data-depth="0.10">
-      <img src="assets/clouds_back.png" alt="Distant clouds" />
+    <!-- Back clouds: parallax + slow drift -->
+    <div class="layer clouds-b" data-depth="0.06">
+      <div class="content clouds-b-content">
+        <img src="assets/clouds_back.png" alt="Distant clouds">
+      </div>
     </div>
 
-    <div class="layer clouds-front" data-depth="0.15">
-      <img src="assets/clouds_front.png" alt="Closer clouds" />
+    <!-- Front clouds: more parallax + drift -->
+    <div class="layer clouds-f" data-depth="0.10">
+      <div class="content clouds-f-content">
+        <img src="assets/clouds_front.png" alt="Closer clouds">
+      </div>
     </div>
 
-    <div class="layer mountains" data-depth="0.18">
-      <img src="assets/mountains.png" alt="Distant mountains" />
+    <!-- Mountains: same tiny depth as sky, appear static -->
+    <div class="layer mountains" data-depth="0.02">
+      <div class="content mountains-content">
+        <img src="assets/mountains.png" alt="Distant mountains">
+      </div>
     </div>
 
-    <!-- OCEAN NO LONGER MOVES WITH CURSOR -->
+    <!-- Ocean: static to cursor, drifting only (big back waves) -->
     <div class="layer ocean" data-depth="0">
-      <img src="assets/ocean.png" alt="Ocean horizon" />
+      <div class="content ocean-content">
+        <img src="assets/ocean.png" alt="Ocean horizon">
+      </div>
     </div>
 
-    <!-- BACK WAVES ALSO STATIC RELATIVE TO CURSOR -->
-    <div class="layer waves-near" data-depth="0">
-      <img src="assets/waves_near.png" alt="Near waves" />
+    <!-- Mid waves: small parallax + drift -->
+    <div class="layer waves-n" data-depth="0.10">
+      <div class="content waves-n-content">
+        <img src="assets/waves_near.png" alt="Near waves">
+      </div>
     </div>
 
-    <!-- FRONT WAVES STILL PARALLAX + ANIMATED -->
-    <div class="layer waves-front" data-depth="0.40">
-      <img src="assets/waves_front.png" alt="Foreground waves" />
+    <!-- Foreground waves: strong parallax + drift -->
+    <div class="layer waves-f" data-depth="0.20">
+      <div class="content waves-f-content">
+        <img src="assets/waves_front.png" alt="Foreground waves">
+      </div>
     </div>
 
-    <div class="layer pagoda" data-depth="0.45">
-      <img src="assets/pagoda_platform.png" alt="Pagoda on stone platform" />
+    <!-- Pagoda: same tiny depth as sky/mountains, feels anchored -->
+    <div class="layer pagoda" data-depth="0.02">
+      <div class="content pagoda-content">
+        <img src="assets/pagoda_platform.png" alt="Pagoda on stone platform">
+      </div>
     </div>
 
-    <div class="layer lavender-overlay" data-depth="0.02"></div>
-
+    <!-- Lavender glow overlay -->
+    <div class="layer overlay" data-depth="0.01">
+      <div class="content overlay-content"></div>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
   <script>
     const scene = document.getElementById('scene');
-    const parallaxInstance = new Parallax(scene, {
+    new Parallax(scene, {
       relativeInput: true,
       hoverOnly: false,
       scalarX: 18,
