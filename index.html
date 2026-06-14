@@ -30,7 +30,7 @@
       inset: 0;
     }
 
-    /* Zoomed out slightly */
+    /* Slightly zoomed out for better framing */
     .content img {
       width: 115vw;
       height: 115vh;
@@ -51,24 +51,30 @@
 
     /* Base positions */
     .sky-content       { transform: scale(1.05) translate3d(0, -5%, 0); }
-    .clouds-b-content  { transform: translate3d(0, -25%, 0); }
-    .clouds-f-content  { transform: translate3d(0, -20%, 0); }
+    .clouds-b-content  { transform: translate3d(0, -35%, 0); }
+    .clouds-f-content  { transform: translate3d(0, -30%, 0); }
     .mountains-content { transform: translate3d(0, 0, 0); }
     .pagoda-content    { transform: translate3d(0, 5%, 0); }
     .ocean-content     { transform: translate3d(0, 10%, 0); }
     .waves-n-content   { transform: translate3d(0, 25%, 0); }
     .waves-f-content   { transform: translate3d(0, 30%, 0); }
 
+    /* Scale down waves */
+    .waves-n-content img,
+    .waves-f-content img {
+      transform: scale(0.85);
+    }
+
     /* Cloud drift */
     @keyframes cloudsBackDrift {
-      0%   { transform: translate3d(-10px, -25%, 0); }
-      50%  { transform: translate3d( 10px, -25%, 0); }
-      100% { transform: translate3d(-10px, -25%, 0); }
+      0%   { transform: translate3d(-10px, -35%, 0); }
+      50%  { transform: translate3d( 10px, -35%, 0); }
+      100% { transform: translate3d(-10px, -35%, 0); }
     }
     @keyframes cloudsFrontDrift {
-      0%   { transform: translate3d(-6px, -20%, 0); }
-      50%  { transform: translate3d( 6px, -20%, 0); }
-      100% { transform: translate3d(-6px, -20%, 0); }
+      0%   { transform: translate3d(-6px, -30%, 0); }
+      50%  { transform: translate3d( 6px, -30%, 0); }
+      100% { transform: translate3d(-6px, -30%, 0); }
     }
     .clouds-b-content { animation: cloudsBackDrift 40s ease-in-out infinite; }
     .clouds-f-content { animation: cloudsFrontDrift 32s ease-in-out infinite; }
@@ -168,7 +174,7 @@
       scalarY: 12,
       frictionX: 0.08,
       frictionY: 0.08,
-      center: { x: 0.55, y: 0.5 } // shifts neutral view slightly right
+      center: { x: 0.60, y: 0.5 } // viewer shifted further right
     });
   </script>
 </body>
