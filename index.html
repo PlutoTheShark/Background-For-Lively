@@ -19,10 +19,10 @@
       overflow: hidden;
     }
 
-    /* Every layer fills the screen */
+    /* Oversized layers so parallax never exposes edges */
     .layer img {
-      width: 100vw;
-      height: 100vh;
+      width: 180vw;
+      height: 180vh;
       object-fit: cover;
       pointer-events: none;
     }
@@ -48,34 +48,46 @@
     .pagoda { z-index: 8; }
     .lavender-overlay { z-index: 9; }
 
-    /* Vertical positioning adjustments */
-    .sky { transform: translateY(-10%); }
-    .clouds-back { transform: translateY(-20%); }
-    .clouds-front { transform: translateY(-15%); }
-    .mountains { transform: translateY(-5%); }
-    .ocean { transform: translateY(10%); }
-    .waves-near { transform: translateY(20%); }
-    .waves-front { transform: translateY(28%); }
+    /* Vertical positioning using translate3d so parallax doesn't override */
+    .sky { transform: translate3d(0, -10%, 0); }
+    .clouds-back { transform: translate3d(0, -25%, 0); }
+    .clouds-front { transform: translate3d(0, -18%, 0); }
+    .mountains { transform: translate3d(0, -5%, 0); }
+    .ocean { transform: translate3d(0, 10%, 0); }
+    .waves-near { transform: translate3d(0, 20%, 0); }
+    .waves-front { transform: translate3d(0, 28%, 0); }
 
-    /* Independent wave motion */
-    @keyframes waveMotion {
-      0% { transform: translateY(28%) translateX(0); }
-      50% { transform: translateY(28%) translateX(12px); }
-      100% { transform: translateY(28%) translateX(0); }
+    /* Independent ocean drift */
+    @keyframes oceanDrift {
+      0% { transform: translate3d(0, 10%, 0); }
+      50% { transform: translate3d(15px, 10%, 0); }
+      100% { transform: translate3d(0, 10%, 0); }
     }
 
-    @keyframes waveMotionNear {
-      0% { transform: translateY(20%) translateX(0); }
-      50% { transform: translateY(20%) translateX(6px); }
-      100% { transform: translateY(20%) translateX(0); }
+    .ocean {
+      animation: oceanDrift 20s ease-in-out infinite;
+    }
+
+    /* Independent near-wave drift */
+    @keyframes waveNearDrift {
+      0% { transform: translate3d(0, 20%, 0); }
+      50% { transform: translate3d(8px, 20%, 0); }
+      100% { transform: translate3d(0, 20%, 0); }
+    }
+
+    .waves-near {
+      animation: waveNearDrift 14s ease-in-out infinite;
+    }
+
+    /* Foreground waves motion */
+    @keyframes waveMotion {
+      0% { transform: translate3d(0, 28%, 0); }
+      50% { transform: translate3d(12px, 28%, 0); }
+      100% { transform: translate3d(0, 28%, 0); }
     }
 
     .waves-front {
       animation: waveMotion 8s ease-in-out infinite;
-    }
-
-    .waves-near {
-      animation: waveMotionNear 12s ease-in-out infinite;
     }
 
     /* Lavender glow overlay */
@@ -103,14 +115,17 @@
       <img src="assets/mountains.png" alt="Distant mountains" />
     </div>
 
-    <div class="layer ocean" data-depth="0.22">
+    <!-- OCEAN NO LONGER MOVES WITH CURSOR -->
+    <div class="layer ocean" data-depth="0">
       <img src="assets/ocean.png" alt="Ocean horizon" />
     </div>
 
-    <div class="layer waves-near" data-depth="0.30">
+    <!-- BACK WAVES ALSO STATIC RELATIVE TO CURSOR -->
+    <div class="layer waves-near" data-depth="0">
       <img src="assets/waves_near.png" alt="Near waves" />
     </div>
 
+    <!-- FRONT WAVES STILL PARALLAX + ANIMATED -->
     <div class="layer waves-front" data-depth="0.40">
       <img src="assets/waves_front.png" alt="Foreground waves" />
     </div>
